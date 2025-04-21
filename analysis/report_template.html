@@ -1,0 +1,30 @@
+<!-- analysis/report_template.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Malware Analysis Report</title>
+  <style>
+    body { font-family: Arial; margin: 20px; background: #f4f4f4; }
+    h1, h2 { color: #2c3e50; }
+    pre { background: #eee; padding: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>🕵️ Malware Analysis Report</h1>
+  <p><strong>Analyzed File:</strong> {{ file_name }}</p>
+  <p><strong>MD5:</strong> {{ md5 }}</p>
+  <p><strong>SHA256:</strong> {{ sha256 }}</p>
+
+  <h2>📦 Static Analysis</h2>
+  <h3>File Info</h3><pre>{{ file_info }}</pre>
+  <h3>Strings</h3><pre>{{ strings }}</pre>
+  <h3>ELF Header</h3><pre>{{ elf_header }}</pre>
+
+  <h2>⚙️ Dynamic Analysis</h2>
+  <h3>System Calls (strace)</h3><pre>{{ syscall_log }}</pre>
+
+  <h2>🛡️ Risk Score</h2>
+  <p><strong>{{ risk_score }}</strong> ({{ risk_level }})</p>
+</body>
+</html>
+

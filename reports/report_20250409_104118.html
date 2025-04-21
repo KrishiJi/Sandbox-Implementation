@@ -1,0 +1,35 @@
+<h1>Malware Analysis Report</h1><p><b>File:</b> samples/test_sample.sh</p><p><b>MD5:</b> b9eb4fab6e3aaf51cbdf4413a9758f39</p><p><b>SHA256:</b> ac9b6aefb3807c4336b8d8546b2f5129a715ac71fe17e3933f52cede6c87b26d</p><h2>Static Analysis</h2><pre>samples/test_sample.sh: Bourne-Again shell script, ASCII text executable</pre><pre>#!/bin/bash
+# Benign test sample mimicking malicious behavior
+echo "[*] Hello, I am pretending to be malware."
+touch /tmp/fakefile
+cat /etc/passwd > /tmp/fake_copy</pre><pre>readelf: Error: Not an ELF file - it has the wrong magic bytes at the start</pre><h2>Dynamic Analysis (System Calls)</h2><pre>72046 execve("samples/test_sample.sh", ["samples/test_sample.sh"], 0x7ffe72f3d758 /* 56 vars */) = 0
+72046 brk(NULL)                         = 0x55c1baec4000
+72046 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f38488bb000
+72046 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+72046 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+72046 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=91387, ...}, AT_EMPTY_PATH) = 0
+72046 mmap(NULL, 91387, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f38488a4000
+72046 close(3)                          = 0
+72046 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libtinfo.so.6", O_RDONLY|O_CLOEXEC) = 3
+72046 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+72046 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=216368, ...}, AT_EMPTY_PATH) = 0
+72046 mmap(NULL, 215360, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f384886f000
+72046 mmap(0x7f384887e000, 77824, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xf000) = 0x7f384887e000
+72046 mmap(0x7f3848891000, 57344, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x22000) = 0x7f3848891000
+72046 mmap(0x7f384889f000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x30000) = 0x7f384889f000
+72046 close(3)                          = 0
+72046 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+72046 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P~\2\0\0\0\0\0"..., 832) = 832
+72046 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+72046 newfstatat(3, "", {st_mode=S_IFREG|0755, st_size=1933688, ...}, AT_EMPTY_PATH) = 0
+72046 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+72046 mmap(NULL, 1985936, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f384868a000
+72046 mmap(0x7f38486b0000, 1404928, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x26000) = 0x7f38486b0000
+72046 mmap(0x7f3848807000, 348160, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x17d000) = 0x7f3848807000
+72046 mmap(0x7f384885c000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1d1000) = 0x7f384885c000
+72046 mmap(0x7f3848862000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f3848862000
+72046 close(3)                          = 0
+72046 mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f3848687000
+72046 arch_prctl(ARCH_SET_FS, 0x7f3848687740) = 0
+72046 set_tid_address(0x7f3848687a10)   = 72046
+</pre>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Malware Analysis Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+        .section-title {
+            margin-top: 2rem;
+            border-bottom: 2px solid #343a40;
+            padding-bottom: 0.5rem;
+        }
+        pre {
+            background-color: #212529;
+            color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+        .risk-medium { color: orange; font-weight: bold; }
+        .risk-high { color: red; font-weight: bold; }
+        .risk-low { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1 class="text-primary">🔍 Malware Analysis Report</h1>
+    <hr>
+    <div>
+        <h4>📂 File: test_sample.sh</h4>
+        <p><strong>MD5:</strong> b9eb4fab6e3aaf51cbdf4413a9758f39<br>
+           <strong>SHA256:</strong> ac9b6aefb3807c4336b8d8546b2f5129a715ac71fe17e3933f52cede6c87b26d<br>
+           <strong>Size:</strong> 165 bytes<br>
+           <strong>Permissions:</strong> -rwxrwxr-x<br>
+           <strong>Last Modified:</strong> 1744206468.85277</p>
+    </div>
+
+    <h3 class="section-title">📘 Static Analysis</h3>
+    <h5>🧾 File Info</h5>
+    <pre>samples/test_sample.sh: Bourne-Again shell script, ASCII text executable</pre>
+    <h5>🔤 Strings (Top 20)</h5>
+    <pre>#!/bin/bash
+# Benign test sample mimicking malicious behavior
+echo "[*] Hello, I am pretending to be malware."
+touch /tmp/fakefile
+cat /etc/passwd > /tmp/fake_copy</pre>
+    <h5>📑 ELF Header</h5>
+    <pre>readelf: Error: Not an ELF file - it has the wrong magic bytes at the start</pre>
+
+    <h3 class="section-title">💻 Dynamic Analysis (System Calls)</h3>
+    
+        <pre>87354 execve("samples/test_sample.sh", ["samples/test_sample.sh"], 0x7ffc36d8d8f8 /* 56 vars */) = 0
+87354 brk(NULL)                         = 0x5565f4a3c000
+87354 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fd9bc68f000
+87354 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+87354 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+87354 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=91387, ...}, AT_EMPTY_PATH) = 0
+87354 mmap(NULL, 91387, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7fd9bc678000
+87354 close(3)                          = 0
+87354 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libtinfo.so.6", O_RDONLY|O_CLOEXEC) = 3
+87354 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+87354 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=216368, ...}, AT_EMPTY_PATH) = 0
+87354 mmap(NULL, 215360, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fd9bc643000
+87354 mmap(0x7fd9bc652000, 77824, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xf000) = 0x7fd9bc652000
+87354 mmap(0x7fd9bc665000, 57344, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x22000) = 0x7fd9bc665000
+87354 mmap(0x7fd9bc673000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x30000) = 0x7fd9bc673000
+87354 close(3)                          = 0
+87354 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+87354 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P~\2\0\0\0\0\0"..., 832) = 832
+87354 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+87354 newfstatat(3, "", {st_mode=S_IFREG|0755, st_size=1933688, ...}, AT_EMPTY_PATH) = 0
+87354 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+87354 mmap(NULL, 1985936, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fd9bc45e000
+87354 mmap(0x7fd9bc484000, 1404928, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x26000) = 0x7fd9bc484000
+87354 mmap(0x7fd9bc5db000, 348160, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x17d000) = 0x7fd9bc5db000
+87354 mmap(0x7fd9bc630000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1d1000) = 0x7fd9bc630000
+87354 mmap(0x7fd9bc636000, 52624, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7fd9bc636000
+87354 close(3)                          = 0
+87354 mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fd9bc45b000
+87354 arch_prctl(ARCH_SET_FS, 0x7fd9bc45b740) = 0
+87354 set_tid_address(0x7fd9bc45ba10)   = 87354
+87354 set_robust_list(0x7fd9bc45ba20, 24) = 0
+87354 rseq(0x7fd9bc45c060, 0x20, 0, 0x53053053) = 0
+87354 mprotect(0x7fd9bc630000, 16384, PROT_READ) = 0
+87354 mprotect(0x7fd9bc673000, 16384, PROT_READ) = 0
+87354 mprotect(0x5565f34e0000, 16384, PROT_READ) = 0
+87354 mprotect(0x7fd9bc6c1000, 8192, PROT_READ) = 0
+87354 prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+87354 munmap(0x7fd9bc678000, 91387)     = 0
+87354 openat(AT_FDCWD, "/dev/tty", O_RDWR|O_NONBLOCK) = 3
+87354 close(3)                          = 0
+</pre>
+    
+
+    <h3 class="section-title">⚠️ Risk Evaluation</h3>
+    <p><strong>Risk Score:</strong> 6/10<br>
+       <strong>Risk Level:</strong> <span class="risk-medium">Medium</span></p>
+
+    <hr>
+    <p class="text-muted">Generated by Linux Malware Sandbox</p>
+</body>
+</html>

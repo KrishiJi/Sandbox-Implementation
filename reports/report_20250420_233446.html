@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Malware Analysis Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+        .section-title {
+            margin-top: 2rem;
+            border-bottom: 2px solid #343a40;
+            padding-bottom: 0.5rem;
+        }
+        pre {
+            background-color: #212529;
+            color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+        .risk-medium { color: orange; font-weight: bold; }
+        .risk-high { color: red; font-weight: bold; }
+        .risk-low { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1 class="text-primary">🔍 Malware Analysis Report</h1>
+    <hr>
+    <div>
+        <h4>📂 File: test_sample.sh</h4>
+        <p><strong>MD5:</strong> b9eb4fab6e3aaf51cbdf4413a9758f39<br>
+           <strong>SHA256:</strong> ac9b6aefb3807c4336b8d8546b2f5129a715ac71fe17e3933f52cede6c87b26d<br>
+           <strong>Size:</strong> 165 bytes<br>
+           <strong>Permissions:</strong> -rwxrwxr-x<br>
+           <strong>Last Modified:</strong> 1744206468.85277</p>
+    </div>
+
+    <h3 class="section-title">📘 Static Analysis</h3>
+    <h5>🧾 File Info</h5>
+    <pre>samples/test_sample.sh: Bourne-Again shell script, ASCII text executable</pre>
+    <h5>🔤 Strings (Top 20)</h5>
+    <pre>#!/bin/bash
+# Benign test sample mimicking malicious behavior
+echo "[*] Hello, I am pretending to be malware."
+touch /tmp/fakefile
+cat /etc/passwd > /tmp/fake_copy</pre>
+    <h5>📑 ELF Header</h5>
+    <pre>Not an ELF file - skipping readelf.</pre>
+
+    <h3 class="section-title">💻 Dynamic Analysis (System Calls)</h3>
+    
+        <pre>Error: execute permission denied for /usr/bin/strace
+Error: no suitable strace executable found
+=== STRACE OUTPUT ===
+
+=== LSOF OUTPUT (open files/network) ===
+COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF    NODE NAME
+python  38536 kali  cwd    DIR    8,1     4096 1838335 /home/kali/linux-malware-sandbox
+python  38536 kali  rtd    DIR    8,1     4096       2 /
+python  38536 kali  txt    REG    8,1  6815960  403120 /usr/bin/python3.11
+python  38536 kali  mem    REG    8,1   194552 1594146 /usr/lib/x86_64-linux-gnu/liblzma.so.5.6.2
+python  38536 kali  mem    REG    8,1    44888  565570 /usr/lib/python3.11/lib-dynload/_json.cpython-311-x86_64-linux-gnu.so
+python  38536 kali  mem    REG    8,1    74688 1592343 /usr/lib/x86_64-linux-gnu/libbz2.so.1.0.4
+python  38536 kali  mem    REG    8,1    44920  565604 /usr/lib/python3.11/lib-dynload/_lzma.cpython-311-x86_64-linux-gnu.so
+python  38536 kali  mem    REG    8,1   813048 1594406 /usr/lib/x86_64-linux-gnu/libzstd.so.1.5.6
+python  38536 kali  mem    REG    8,1  5706872 1593986 /usr/lib/x86_64-linux-gnu/libcrypto.so.3
+python  38536 kali  mem    REG    8,1    14616 1447345 /usr/lib/python3/dist-packages/markupsafe/_speedups.cpython-311-x86_64-linux-gnu.so
+python  38536 kali  mem    REG    8,1   129096 1600676 /usr/lib/x86_64-linux-gnu/ossl-modules/legacy.so
+python  38536 kali  mem    REG    8,1    63536  565582 /usr/lib/python3.11/lib-dynload/_hashlib.cpython-311-x86_64-linux-gnu.so
+python  38536 kali  mem    REG    8,1  3052896  562771 /usr/lib/locale/locale-archive
+python  38536 kali  mem    REG    8,1  1933688 1592275 /usr/lib/x86_64-linux-gnu/libc.so.6
+python  38536 kali  mem    REG    8,1   174176 1592399 /usr/lib/x86_64-linux-gnu/libexpat.so.1.9.2
+python  38536 kali  mem    REG    8,1   121280 1593942 /usr/lib/x86_64-linux-gnu/libz.so.1.3.1
+python  38536 kali  mem    REG    8,1   919768 1594350 /usr/lib/x86_64-linux-gnu/libm.so.6
+python  38536 kali  mem    REG    8,1    14336  565606 /usr/lib/python3.11/lib-dynload/_typing.cpython-311-x86_64-linux-gnu.so
+python  38536 kali  mem    REG    8,1    27832  565577 /usr/lib/python3.11/lib-dynload/_bz2.cpython-311-x86_64-linux-gnu.so
+python  38536 kali  mem    REG    8,1    27028 1599712 /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache
+python  38536 kali  mem    REG    8,1   210728 1593685 /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+python  38536 kali    0u   CHR  136,0      0t0       3 /dev/pts/0
+python  38536 kali    1u   CHR  136,0      0t0       3 /dev/pts/0
+python  38536 kali    2u   CHR  136,0      0t0       3 /dev/pts/0
+python  38536 kali    3r  FIFO   0,14      0t0   82558 pipe
+python  38536 kali    7w   REG    8,1       96 1839699 /home/kali/linux-malware-sandbox/logs/log_20250420_233446.txt<h2>File System Activity</h2><pre>/tmp/ MODIFY #38
+/tmp/ MODIFY #37
+/tmp/ MODIFY #39
+/tmp/ MODIFY #38
+/tmp/ MODIFY #37
+/tmp/ MODIFY #39
+/tmp/ MODIFY #38
+/tmp/ MODIFY #37
+/tmp/ MODIFY #39
+/tmp/ MODIFY #38
+/tmp/ MODIFY #37
+/tmp/ MODIFY #39
+/tmp/ MODIFY #38
+/tmp/ MODIFY #37
+/tmp/ MODIFY #39
+/tmp/ MODIFY #38
+/tmp/ MODIFY #37
+/tmp/ MODIFY #39
+/tmp/ MODIFY #38
+/tmp/ MODIFY #37
+/tmp/ MODIFY #39
+/tmp/ MODIFY #38
+/tmp/ MODIFY #37
+/tmp/ MODIFY #39
+/tmp/ MODIFY #38
+/tmp/ MODIFY #37
+/tmp/ MODIFY #39
+/tmp/ MODIFY #38
+/tmp/ MODIFY #37
+/tmp/ MODIFY #39
+</pre><h2>Network Traffic</h2><p>PCAP file captured: net_log_20250420_233446.pcap</p></pre>
+    
+
+    <h3 class="section-title">⚠️ Risk Evaluation</h3>
+    <p><strong>Risk Score:</strong> 6/10<br>
+       <strong>Risk Level:</strong> <span class="risk-medium">Medium</span></p>
+
+    <hr>
+    <p class="text-muted">Generated by Linux Malware Sandbox</p>
+</body>
+</html>

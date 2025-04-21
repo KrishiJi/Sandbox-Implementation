@@ -1,0 +1,2 @@
+94198 execve("samples/suspicious.sh", ["samples/suspicious.sh"], 0x7ffc5f2163d8 /* 56 vars */) = -1 EACCES (Permission denied)
+94198 +++ exited with 1 +++
